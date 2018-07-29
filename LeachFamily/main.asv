@@ -1,0 +1,75 @@
+clear
+clc
+
+IniEng=0.5;%0.5; % Initial Energy of Every Node
+NetSize=200; % Network Size
+NoOfNode=200; % Number of Node
+NoOfRound=1500; % Number of Round
+cluster_head_percentage=0.1;
+
+[STATISTICS1,FD1,TD1,AD1]=leach(IniEng,NetSize,NoOfNode,NoOfRound,cluster_head_percentage);%% Leach
+[STATISTICS2,FD2,TD2,AD2]=Leach_Centralized(IniEng,NetSize,NoOfNode,NoOfRound,cluster_head_percentage); %% Centralized Leach
+[STATISTICS3,FD3,TD3,AD3]=TS-I-LEACH(IniEng,NetSize,NoOfNode,NoOfRound,cluster_head_percentage); %% Improved Leach IICT, BUET
+
+
+r=0:NoOfRound;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+plot(r,STATISTICS1.DEAD,'k:',r,STATISTICS2.DEAD,'m-',r,STATISTICS3.DEAD,'r-.','LineWidth',2);
+legend('LEACH','LEACH-C','TS-I-LEACH','Location','SouthEast');
+%legend('Leach','Leach-C','E-Leach','EDGE-without-Two-hop','EDGE-with-Two-hop','Location','SouthEast');
+xlabel('x(time)');
+ylabel('No of Dead Nodes');
+title('No of Allive Nodes Over Time');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure
+plot(r,STATISTICS1.ALLIVE,'k:',r,STATISTICS2.ALLIVE,'m-',r,STATISTICS3.ALLIVE,'r-.','LineWidth',2);
+%plot(r,STATISTICS1.ALLIVE,'k:',r,STATISTICS4.ALLIVE,'m-',r,STATISTICS2.ALLIVE,'r-.',r,STATISTICS3.ALLIVE,'b-',r,STATISTICS6.ALLIVE,'g-','LineWidth',2);
+legend('LEACH','LEACH-C','TS-I-LEACH');
+%legend('Leach','Leach-C','E-Leach','EDGE-without-Two-hop','EDGE-with-Two-hop');
+xlabel('x(time)');
+ylabel('No of Allive Nodes');
+title('No of Dead Nodes Over Time');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure;
+plot(r,STATISTICS1.PACKETS_TO_BS,'k:',r,STATISTICS2.PACKETS_TO_BS,'m-',r,STATISTICS3.PACKETS_TO_BS,'r-.','LineWidth',2);
+%plot(r,STATISTICS1.PACKETS_TO_BS,'k:',r,STATISTICS4.PACKETS_TO_BS,'m-',r,STATISTICS2.PACKETS_TO_BS,'r-.',r,STATISTICS25.PACKETS_TO_BS,'b-',r,STATISTICS6.PACKETS_TO_BS,'g-','LineWidth',2);
+legend('LEACH','LEACH-C','TS-I-LEACH','Location','SouthEast');
+%legend('Leach','Leach-C','E-Leach','EDGE-without-Two-hop','EDGE-with-Two-hop','Location','SouthEast');
+xlabel('x(time)');
+ylabel('No of Packets');
+title('Number of packets send to Sink Node');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure;
+plot(r,STATISTICS1.TotalEnergy,'k:',r,STATISTICS2.TotalEnergy,'m-',r,STATISTICS3.TotalEnergy,'r-.','LineWidth',2);
+%plot(r,STATISTICS1.TotalEnergy,'k:',r,STATISTICS4.TotalEnergy,'m-',r,STATISTICS2.TotalEnergy,'r-.',r,STATISTICS3.TotalEnergy,'b-',r,STATISTICS6.TotalEnergy,'g-','LineWidth',2);
+legend('LEACH','LEACH-C','TS-I-LEACH','TSUC-LEACH');
+%legend('Leach','Leach-C','E-Leach','EDGE-without-Two-hop','EDGE-with-Two-hop');
+xlabel('x(time)');
+ylabel('Total Energy of Network in (Joule)');
+title('The total Remaining Energy of the System in (J)');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+figure;
+bargraph=[FD1,FD5,FD2,FD3;TD1,TD5,TD2,TD3;AD1,AD5,AD2,AD3];
+%bargraph=[FD1,FD5,FD2,FD4,FD6;TD1,TD5,TD2,TD4,TD6;AD1,AD5,AD2,AD4,AD6];
+bar(bargraph,'group');
+legend('LEACH','LEACH-C','TSFL-LEACH','TSUC-LEACH','Location','NorthWest');
+%legend('Leach','Leach-C','E-Leach','EDGE-without-Two-hop','EDGE-with-Two-hop','Location','NorthWest');
+title('The Time when First node die, Tenth node die and All nodes die');
+xlabel('FIRST DEATH              TENTH DEATH              ALL DEATH');
+ylabel('Number of rounds');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
